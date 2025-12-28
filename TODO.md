@@ -1,0 +1,6 @@
+
+
+/superpowers:brainstorm "use parallel agents for research, ultrathink, read @docs/Research.md for context, and create a python script that I can run with uvx (and a corresponding bash script to run it) that given username and password via env vars, will log into cookido spanish site (https://cookidoo.es) and download all the recipes saved by that user (either in personal lists or just marked as favourites). We only care about the id of the recipe or the url or whatever we may need to load the recipe later to save it for another user, so optimise for that, no need to donwload the full html"
+
+
+/superpowers:brainstorm "use parallel agents for research, ultrathink, read @docs/Research.md for context, and create a python script that I can run with uvx (and a corresponding bash script to run it) that given username and password via env vars, will log into cookido spanish site (https://cookidoo.es) and use an export of favourite recipes from another user to tag those as favourite. The script will automatically organise the recipes, using a new set of categories that focuses on both seasonality of the recipe as well as other characteristics that will help me find them. Use your criteria and standard criteria for organisation for recipes as guidance for which categories to use"
