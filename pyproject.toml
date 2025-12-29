@@ -7,10 +7,12 @@ requires-python = ">=3.12"
 dependencies = [
     "cookidoo-api>=0.15.0",
     "aiohttp>=3.9.0",
+    "google-genai>=1.0.0",
 ]
 
 [project.scripts]
 cookido-agent = "cookido_agent.exporter:main"
+cookido-importer = "cookido_agent.importer:main"
 
 [build-system]
 requires = ["hatchling"]
