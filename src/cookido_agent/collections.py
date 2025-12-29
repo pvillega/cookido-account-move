@@ -138,6 +138,65 @@ class CollectionManager:
         """Check if a recipe is already in a collection."""
         return recipe_id in self._collection_recipes.get(collection_id, set())
 
+    async def delete_collection(self, collection_id: str) -> bool:
+        """Delete a custom collection.
+
+        Args:
+            collection_id: ID of the collection to delete
+
+        Returns:
+            True if deleted successfully
+        """
+        try:
+            await self.cookidoo.remove_custom_collection(collection_id)
+
+            # Remove from caches
+            name_to_remove = None
+            for name, cid in self._collections_cache.items():
+                if cid == collection_id:
+                    name_to_remove = name
+                    break
+            if name_to_remove:
+                del self._collections_cache[name_to_remove]
+
+            if collection_id in self._collection_recipes:
+                del self._collection_recipes[collection_id]
+
+            return True
+        except Exception as e:
+            print(f"Error deleting collection {collection_id}: {e}", file=sys.stderr)
+            return False
+
+    async def remove_recipe_from_collection(
+        self,
+        collection_id: str,
+        recipe_id: str,
+    ) -> bool:
+        """Remove a recipe from a collection.
+
+        Args:
+            collection_id: Target collection ID
+            recipe_id: Recipe ID to remove
+
+        Returns:
+            True if removed successfully
+        """
+        try:
+            await self.cookidoo.remove_recipe_from_custom_collection(
+                collection_id,
+                recipe_id,
+            )
+            # Update cache
+            if collection_id in self._collection_recipes:
+                self._collection_recipes[collection_id].discard(recipe_id)
+            return True
+        except Exception as e:
+            print(
+                f"Error removing recipe {recipe_id} from {collection_id}: {e}",
+                file=sys.stderr,
+            )
+            return False
+
 
 async def organize_recipes_into_collections(
     cookidoo: Cookidoo,

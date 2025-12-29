@@ -31,7 +31,7 @@ class Season(str, Enum):
 
 
 class DishType(str, Enum):
-    """Recipe dish type classification."""
+    """Recipe dish type classification (Spanish)."""
 
     SOPAS = "Sopas"
     ENSALADAS = "Ensaladas"
@@ -42,6 +42,39 @@ class DishType(str, Enum):
     POSTRES = "Postres"
     PANES = "Panes"
     SALSAS = "Salsas"
+
+
+class DishTypeEN(str, Enum):
+    """Recipe dish type classification (English, culinary terms)."""
+
+    SOUPS = "Soups"
+    SALADS = "Salads"
+    MEATS = "Meats"
+    SEAFOOD = "Seafood"
+    PASTA = "Pasta"
+    RICE_DISHES = "Rice Dishes"
+    DESSERTS = "Desserts"
+    BREADS = "Breads"
+    SAUCES = "Sauces"
+
+
+# Translation mapping from Spanish DishType to English DishTypeEN
+DISH_TYPE_TRANSLATIONS: dict[DishType, DishTypeEN] = {
+    DishType.SOPAS: DishTypeEN.SOUPS,
+    DishType.ENSALADAS: DishTypeEN.SALADS,
+    DishType.CARNES: DishTypeEN.MEATS,
+    DishType.PESCADOS: DishTypeEN.SEAFOOD,
+    DishType.PASTAS: DishTypeEN.PASTA,
+    DishType.ARROCES: DishTypeEN.RICE_DISHES,
+    DishType.POSTRES: DishTypeEN.DESSERTS,
+    DishType.PANES: DishTypeEN.BREADS,
+    DishType.SALSAS: DishTypeEN.SAUCES,
+}
+
+
+def translate_dish_type(spanish: DishType) -> DishTypeEN:
+    """Translate Spanish dish type to English equivalent."""
+    return DISH_TYPE_TRANSLATIONS[spanish]
 
 
 @dataclass
@@ -139,8 +172,20 @@ class ImportState:
 
 
 def get_collection_name(season: Season, dish_type: DishType) -> str:
-    """Generate collection name with emoji prefix.
+    """Generate collection name with emoji prefix (legacy two-level format).
 
     Format: "🌸 Primavera > Sopas"
+
+    Note: This is the legacy format. Use get_flat_collection_name() for
+    the new single-level English format.
     """
     return f"{season.emoji} {season.value} > {dish_type.value}"
+
+
+def get_flat_collection_name(dish_type: DishType) -> str:
+    """Generate flat collection name in English.
+
+    Format: "Seafood" (no season prefix, translated to English)
+    """
+    english = translate_dish_type(dish_type)
+    return english.value

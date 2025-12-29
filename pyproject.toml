@@ -13,6 +13,7 @@ dependencies = [
 [project.scripts]
 cookido-agent = "cookido_agent.exporter:main"
 cookido-importer = "cookido_agent.importer:main"
+cookido-organizer = "cookido_agent.organizer:main"
 
 [build-system]
 requires = ["hatchling"]

@@ -64,3 +64,4 @@ dmypy.json
 
 # Other
 cookidoo-export*
+.cookidoo-*
